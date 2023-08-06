@@ -1,0 +1,12 @@
+_target_: src.datamodules.gazefollow_datamodule.GazeFollowDataModule
+data_dir: "${paths.data_dir}/gazefollow_extended"
+batch_size: 4
+num_workers: 8
+pin_memory: True
+persistent_workers: True
+
+num_queries: ${model.net.num_queries}
+gaze_heatmap_size: 64  # 64x64 heatmap
+gaze_heatmap_default_value: 1
+use_aux_heads_dataset: True
+use_gaze_inside_only: False

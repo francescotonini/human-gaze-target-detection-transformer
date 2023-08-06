@@ -1,0 +1,29 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - datamodule: gazefollow.yaml
+  - model: hgttr.yaml
+  - criterion: hgttr.yaml
+  - evaluation: hgttr.yaml
+  - matcher: hgttr.yaml
+  - callbacks: default.yaml
+  - logger: null # set logger here or use command line (e.g. `python train.py logger=tensorboard`)
+  - trainer: default.yaml
+  - paths: default.yaml
+  - extras: default.yaml
+  - hydra: default.yaml
+
+  - experiment: null
+
+  # optional local config for machine/user specific settings
+  # it's optional since it doesn't need to exist and is excluded from version control
+  - optional local: default.yaml
+
+task_name: "eval"
+
+tags: ["dev"]
+
+# passing checkpoint path is necessary for evaluation
+#ckpt_path: ???
+ckpt_path: null
