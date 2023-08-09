@@ -1,14 +1,13 @@
 # @package _global_
 
 defaults:
-  - override /datamodule: videoattentiontarget.yaml
+  - override /datamodule: gazefollow.yaml
   - override /model: hgttr.yaml
   - override /criterion: hgttr_with_watch_outside.yaml
-  - override /evaluation: hgttr_with_watch_outside.yaml
   - override /matcher: hgttr.yaml
   - override /trainer: gpu.yaml
 
-tags: ["hgttr", "videoattentiontarget"]
+tags: ["hgttr", "gazefollow", "train", "watch", "outside"]
 
 matcher:
   cost_gaze_watch_outside_coeff: 1

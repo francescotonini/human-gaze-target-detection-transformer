@@ -68,6 +68,9 @@ class HGTTRLitModule(LightningModule):
     def on_validation_start(self):
         self.on_start()
 
+    def on_test_start(self):
+        self.on_start()
+
     def step(self, batch: Any, do_eval: bool = False):
         samples, targets = batch
         outputs = self.net(samples)
@@ -370,6 +373,12 @@ class HGTTRLitModule(LightningModule):
                 prog_bar=True,
                 sync_dist=True,
             )
+
+    def test_step(self, batch: Any, batch_idx: int):
+        return self.validation_step(batch, batch_idx)
+
+    def on_test_epoch_end(self):
+        return self.on_validation_epoch_end()
 
     def configure_optimizers(self):
         params = [

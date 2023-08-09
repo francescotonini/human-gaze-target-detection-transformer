@@ -25,13 +25,7 @@ class GazeHeatmapLoss(nn.Module):
         )[~tgt_regression_padding].flatten(1, 2)
         tgt_gaze_inside = (tgt_watch_outside.argmax(-1) == 0).float()
 
-        # If pred_gaze_heatmap is list, get the last one
-        if isinstance(outputs["pred_gaze_heatmap"], list):
-            pred_heatmap = torch.stack(
-                [outputs["pred_gaze_heatmap"][i][j] for (i, j) in zip(idx[0], idx[1])]
-            )
-        else:
-            pred_heatmap = outputs["pred_gaze_heatmap"][idx]
+        pred_heatmap = outputs["pred_gaze_heatmap"][idx]
 
         pred_heatmap = pred_heatmap[~tgt_regression_padding]
 

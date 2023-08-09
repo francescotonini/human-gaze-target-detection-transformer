@@ -45,20 +45,8 @@ class GazePointMinDistance:
             [t["boxes"][i] for t, (_, i) in zip(targets, indices)], dim=0
         )[~tgt_regression_padding]
 
-        # Gaze heatmap
-        if isinstance(outputs["pred_gaze_heatmap"], list):
-            pred_heatmaps = torch.stack(
-                [outputs["pred_gaze_heatmap"][i][j] for (i, j) in zip(idx[0], idx[1])]
-            )
-            pred_bbox = torch.stack(
-                [outputs["pred_boxes"][i][j] for (i, j) in zip(idx[0], idx[1])]
-            )
-        else:
-            pred_heatmaps = outputs["pred_gaze_heatmap"][idx]
-            pred_bbox = outputs["pred_boxes"][idx]
-
-        pred_bbox = pred_bbox[~tgt_regression_padding]
-        pred_heatmaps = pred_heatmaps.reshape(
+        pred_bbox = outputs["pred_boxes"][idx][~tgt_regression_padding]
+        pred_heatmaps = outputs["pred_gaze_heatmap"][idx].reshape(
             -1, self.gaze_heatmap_size, self.gaze_heatmap_size
         )[~tgt_regression_padding]
 

@@ -14,3 +14,8 @@ evals:
   gaze_heatmap_auc:
     _target_: src.criteria.evals.GazeHeatmapAUC.GazeHeatmapAUC
     gaze_heatmap_size: ${datamodule.gaze_heatmap_size}
+  gaze_map:
+    _target_: src.criteria.evals.GazeMAP.GazeMAP
+    gaze_heatmap_size: ${datamodule.gaze_heatmap_size}
+    iou_threshold: 0.5
+    l2_threshold: 0.15
