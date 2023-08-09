@@ -74,8 +74,9 @@ class HGTTRHungarianMatcher(nn.Module):
         C = (
             self.cost_bbox_coeff * (cost_giou + cost_bbox)
             + self.cost_class_coeff * cost_class
-            + self.cost_gaze_watch_outside_coeff * (cost_watch_outside * ~eval_mode)
-            + self.cost_gaze_heatmap_coeff * (cost_gaze_heatmap * ~eval_mode)
+            + (self.cost_gaze_watch_outside_coeff * (not eval_mode))
+            * cost_watch_outside
+            + (self.cost_gaze_heatmap_coeff * (not eval_mode)) * cost_gaze_heatmap
         )
         C = C.view(bs, num_queries, -1).cpu()
 
