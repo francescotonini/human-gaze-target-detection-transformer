@@ -133,6 +133,9 @@ class VideoAttentionTargetDataModule(LightningDataModule):
             collate_fn=misc.collate_fn,
         )
 
+    def test_dataloader(self):
+        return self.val_dataloader()
+
 
 if __name__ == "__main__":
     import hydra

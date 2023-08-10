@@ -5,7 +5,6 @@ matcher: ${matcher}
 evals:
   label_accuracy:
     _target_: src.criteria.evals.LabelAccuracy.LabelAccuracy
-    num_classes: 2
   gaze_avg_distance:
     _target_: src.criteria.evals.GazePointAvgDistance.GazePointAvgDistance
     gaze_heatmap_size: ${datamodule.gaze_heatmap_size}

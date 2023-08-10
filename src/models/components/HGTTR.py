@@ -68,7 +68,7 @@ class HGTTR(nn.Module):
         backbone_hidden_dim = self.backbone.transformer.d_model
 
         self.class_embed = MLP(backbone_hidden_dim, backbone_hidden_dim, 2, 1)
-        self.gaze_watch_outside_embed = MLP(
+        self.gaze_watch_outside_embed = self.watch_outside_embed = MLP(
             backbone_hidden_dim, backbone_hidden_dim, 1, 1
         )
         self.head_bbox_embed = MLP(backbone_hidden_dim, backbone_hidden_dim, 4, 3)

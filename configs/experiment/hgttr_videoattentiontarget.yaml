@@ -12,4 +12,3 @@ tags: ["hgttr", "videoattentiontarget"]
 
 matcher:
   cost_gaze_watch_outside_coeff: 1
-
