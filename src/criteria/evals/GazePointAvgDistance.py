@@ -1,7 +1,6 @@
 import torch
 from torchmetrics import MeanMetric
 
-from src.utils import box_ops
 from src.utils.gaze_ops import get_heatmap_peak_coords, get_l2_dist
 
 
@@ -41,11 +40,7 @@ class GazePointAvgDistance:
         tgt_watch_outside = torch.cat(
             [t["gaze_watch_outside"][i] for t, (_, i) in zip(targets, indices)], dim=0
         )[~tgt_regression_padding].bool()
-        tgt_bbox = torch.cat(
-            [t["boxes"][i] for t, (_, i) in zip(targets, indices)], dim=0
-        )[~tgt_regression_padding]
 
-        pred_bbox = outputs["pred_boxes"][idx][~tgt_regression_padding]
         pred_heatmaps = outputs["pred_gaze_heatmap"][idx].reshape(
             -1, self.gaze_heatmap_size, self.gaze_heatmap_size
         )[~tgt_regression_padding]
@@ -55,26 +50,15 @@ class GazePointAvgDistance:
             tgt_gaze_point,
             tgt_gaze_point_padding,
             tgt_watch_outside,
-            pred_bbox,
-            tgt_bbox,
         ) in enumerate(
             zip(
                 pred_heatmaps,
                 tgt_gaze_points,
                 tgt_gaze_points_padding,
                 tgt_watch_outside,
-                pred_bbox,
-                tgt_bbox,
             )
         ):
             if tgt_watch_outside:
-                continue
-
-            tgt_bbox = box_ops.box_cxcywh_to_xyxy(tgt_bbox.unsqueeze(0))
-            pred_bbox = box_ops.box_cxcywh_to_xyxy(pred_bbox.unsqueeze(0))
-
-            iou, _ = box_ops.box_iou(tgt_bbox, pred_bbox)
-            if iou == 0:
                 continue
 
             pred_gaze_x, pred_gaze_y = get_heatmap_peak_coords(pred_heatmap)

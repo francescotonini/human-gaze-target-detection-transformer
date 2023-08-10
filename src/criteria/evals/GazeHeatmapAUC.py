@@ -3,7 +3,6 @@ import torchvision.transforms.functional as TF
 from torchmetrics import MeanMetric
 from torchmetrics.functional import auroc
 
-from src.utils import box_ops
 from src.utils.gaze_ops import get_multi_hot_map
 
 
@@ -43,11 +42,7 @@ class GazeHeatmapAUC:
         tgt_watch_outside = torch.cat(
             [t["gaze_watch_outside"][i] for t, (_, i) in zip(targets, indices)], dim=0
         )[~tgt_regression_padding].bool()
-        tgt_bbox = torch.cat(
-            [t["boxes"][i] for t, (_, i) in zip(targets, indices)], dim=0
-        )[~tgt_regression_padding]
 
-        pred_bbox = outputs["pred_boxes"][idx][~tgt_regression_padding]
         pred_heatmaps = outputs["pred_gaze_heatmap"][idx].reshape(
             -1, self.gaze_heatmap_size, self.gaze_heatmap_size
         )[~tgt_regression_padding]
@@ -56,21 +51,12 @@ class GazeHeatmapAUC:
             [t["img_size"][i] for t, (_, i) in zip(targets, indices)], dim=0
         )[~tgt_regression_padding].reshape(-1, 2)
 
-        paths = [
-            [t["path"] for _ in range(len(i))] for t, (_, i) in zip(targets, indices)
-        ]
-        paths = [item for sublist in paths for item in sublist]
-        paths = [p for p, t in zip(paths, tgt_regression_padding) if not t]
-
         for idx, (
             pred_heatmap,
             tgt_gaze_point,
             tgt_gaze_point_padding,
             tgt_watch_outside,
             img_size,
-            pred_bbox,
-            tgt_bbox,
-            path,
         ) in enumerate(
             zip(
                 pred_heatmaps,
@@ -78,19 +64,9 @@ class GazeHeatmapAUC:
                 tgt_gaze_points_padding,
                 tgt_watch_outside,
                 img_sizes,
-                pred_bbox,
-                tgt_bbox,
-                paths,
             )
         ):
             if tgt_watch_outside:
-                continue
-
-            tgt_bbox = box_ops.box_cxcywh_to_xyxy(tgt_bbox.unsqueeze(0))
-            pred_bbox = box_ops.box_cxcywh_to_xyxy(pred_bbox.unsqueeze(0))
-
-            iou, _ = box_ops.box_iou(tgt_bbox, pred_bbox)
-            if iou == 0:
                 continue
 
             img_height, img_width = img_size[0], img_size[1]

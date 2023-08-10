@@ -26,7 +26,7 @@ class HGTTREvaluation(nn.Module):
         outputs_without_aux = {k: v for k, v in outputs.items() if k != "aux_outputs"}
 
         # Retrieve the matching between the preds of the last layer and the targets
-        indices = self.matcher(outputs_without_aux, targets, eval_mode=True)
+        indices = self.matcher(outputs_without_aux, targets)
         src_permutation_idx = self._get_src_permutation_idx(indices)
 
         for _, fn in self.evals.items():

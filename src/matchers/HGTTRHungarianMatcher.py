@@ -35,7 +35,7 @@ class HGTTRHungarianMatcher(nn.Module):
         self.loss_giou_coeff = loss_giou_coeff
 
     @torch.no_grad()
-    def forward(self, outputs, targets, eval_mode=False):
+    def forward(self, outputs, targets):
         bs, num_queries = outputs["pred_logits"].shape[:2]
 
         # We flatten to compute the cost matrices in a batch
@@ -74,9 +74,8 @@ class HGTTRHungarianMatcher(nn.Module):
         C = (
             self.cost_bbox_coeff * (cost_giou + cost_bbox)
             + self.cost_class_coeff * cost_class
-            + (self.cost_gaze_watch_outside_coeff * (not eval_mode))
-            * cost_watch_outside
-            + (self.cost_gaze_heatmap_coeff * (not eval_mode)) * cost_gaze_heatmap
+            + self.cost_gaze_watch_outside_coeff * cost_watch_outside
+            + self.cost_gaze_heatmap_coeff * cost_gaze_heatmap
         )
         C = C.view(bs, num_queries, -1).cpu()
 
