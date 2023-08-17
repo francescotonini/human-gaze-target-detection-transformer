@@ -50,7 +50,16 @@ class HGTTRLitModule(LightningModule):
         if net_pretraining is not None:
             log.info(f"Loading pretrained model from {net_pretraining}")
 
-            load_pretrained(self.net, model_zoo.load_url(net_pretraining))
+            # Check whether net_pretraining is path or url
+            if net_pretraining.startswith("http"):
+                load_pretrained(self.net, model_zoo.load_url(net_pretraining))
+            else:
+                # Assuming we are loading a pytorch lightning checkpoint
+                load_pretrained(
+                    self.net,
+                    torch.load(net_pretraining, map_location="cpu"),
+                    drop_prefix="net.",
+                )
 
         # For averaging loss across batches
         self.train_loss = MeanMetric()

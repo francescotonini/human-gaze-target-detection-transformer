@@ -40,12 +40,19 @@ def unnorm(img, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]):
     return img * std + mean
 
 
-def load_pretrained(model, checkpoint):
+def load_pretrained(model, checkpoint, drop_prefix=None):
     model_dict = model.state_dict()
+    model_weights = (
+        checkpoint["model"] if "model" in checkpoint else checkpoint["state_dict"]
+    )
 
     # Check if shapes between model_dict and checkpoint match, otherwise add to new_state_dict
     new_state_dict = {}
-    for k, v in checkpoint["model"].items():
+    for k, v in model_weights.items():
+        # Remove prefix if needed
+        if drop_prefix is not None and k.startswith(drop_prefix):
+            k = k[len(drop_prefix) :]
+
         if k in model_dict and model_dict[k].shape == v.shape:
             new_state_dict[k] = v
         elif k in model_dict and model_dict[k].shape != v.shape:
@@ -55,12 +62,11 @@ def load_pretrained(model, checkpoint):
         else:
             log.warning(f"Skipping {k} from pretrained weights: not found in model")
 
-    log.info(f"Total weights from file: {len(checkpoint['model'])}")
+    log.info(f"Total weights from file: {len(model_weights)}")
     log.info(f"Total weights loaded: {len(new_state_dict)}")
 
     model_dict.update(new_state_dict)
     log.info(model.load_state_dict(model_dict, strict=False))
-
 
 def get_annotation_id(annotation_name, face_only=False):
     # NOTE: yikes, can we do better?
