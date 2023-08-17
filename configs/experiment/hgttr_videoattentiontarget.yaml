@@ -12,3 +12,6 @@ tags: ["hgttr", "videoattentiontarget"]
 
 matcher:
   cost_gaze_watch_outside_coeff: 1
+
+trainer:
+  limit_train_batches: 0.2
