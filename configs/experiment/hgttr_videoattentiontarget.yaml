@@ -2,13 +2,13 @@
 
 defaults:
   - override /datamodule: videoattentiontarget.yaml
-  - override /model: hgttr.yaml
   - override /criterion: hgttr_with_watch_outside.yaml
   - override /evaluation: hgttr_with_watch_outside.yaml
-  - override /matcher: hgttr.yaml
-  - override /trainer: gpu.yaml
 
 tags: ["hgttr", "videoattentiontarget"]
+
+# model:
+#   net_pretraining: "URL TO GAZEFOLLOW PRETRAINING"
 
 matcher:
   cost_gaze_watch_outside_coeff: 1
