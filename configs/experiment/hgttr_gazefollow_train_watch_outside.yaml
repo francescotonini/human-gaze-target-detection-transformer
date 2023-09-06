@@ -1,0 +1,10 @@
+# @package _global_
+
+defaults:
+  - override /criterion: hgttr_with_watch_outside.yaml
+  - override /evaluation: hgttr_with_watch_outside.yaml
+
+tags: ["hgttr", "gazefollow", "watch_outside"]
+
+matcher:
+  cost_gaze_watch_outside_coeff: 1

@@ -1,0 +1,24 @@
+_target_: src.models.hgttr_module.HGTTRLitModule
+
+net:
+  _target_: src.models.components.HGTTR.HGTTR
+  num_queries: 20
+  gaze_heatmap_size: ${datamodule.gaze_heatmap_size}
+  aux_loss: True
+
+optimizer:
+  _target_: torch.optim.AdamW
+  _partial_: true
+  lr: 1e-4
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.StepLR
+  _partial_: true
+  step_size: 80
+
+criterion: ${criterion}
+
+evaluation: ${evaluation}
+
+# Number of images to log on wandb with bbox and gaze predictions
+n_of_images_to_log: ${datamodule.batch_size}

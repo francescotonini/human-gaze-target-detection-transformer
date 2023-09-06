@@ -1,0 +1,17 @@
+# @package _global_
+
+defaults:
+  - override /datamodule: videoattentiontarget.yaml
+  - override /criterion: hgttr_with_watch_outside.yaml
+  - override /evaluation: hgttr_with_watch_outside.yaml
+
+tags: ["hgttr", "videoattentiontarget"]
+
+# model:
+#   net_pretraining: "URL TO GAZEFOLLOW PRETRAINING"
+
+matcher:
+  cost_gaze_watch_outside_coeff: 1
+
+trainer:
+  limit_train_batches: 0.2

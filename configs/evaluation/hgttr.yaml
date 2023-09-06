@@ -1,0 +1,19 @@
+_target_: src.criteria.HGTTREvaluation.HGTTREvaluation
+
+matcher: ${matcher}
+
+evals:
+  gaze_avg_distance:
+    _target_: src.criteria.evals.GazePointAvgDistance.GazePointAvgDistance
+    gaze_heatmap_size: ${datamodule.gaze_heatmap_size}
+  gaze_min_distance:
+    _target_: src.criteria.evals.GazePointMinDistance.GazePointMinDistance
+    gaze_heatmap_size: ${datamodule.gaze_heatmap_size}
+  gaze_heatmap_auc:
+    _target_: src.criteria.evals.GazeHeatmapAUC.GazeHeatmapAUC
+    gaze_heatmap_size: ${datamodule.gaze_heatmap_size}
+  gaze_map:
+    _target_: src.criteria.evals.GazeMAP.GazeMAP
+    gaze_heatmap_size: ${datamodule.gaze_heatmap_size}
+    iou_threshold: 0.5
+    l2_threshold: 0.15
