@@ -61,7 +61,7 @@ We provide configuration to train on GazeFollow and VideoAttentionTarget (see [c
 python src/train.py experiment=hgttr_gazefollow
 
 # VideoAttentionTarget
-python src/train.py experiment=hgttr_videoattentiontarget model.net_pretraining={URL TO GAZEFOLLOW PRETRAINING}
+python src/train.py experiment=hgttr_videoattentiontarget +model.net_pretraining={URL/PATH TO GAZEFOLLOW WEIGHTS}
 ```
 
 ## Evaluation
@@ -70,25 +70,29 @@ The configuration files are also useful when evaluating the model.
 ```bash
 # GazeFollow
 python src/eval.py experiment=hgttr_gazefollow ckpt_path={PATH TO CHECKPOINT}
+# or
+python src/eval.py experiment=hgttr_gazefollow +model.net_pretraining={URL/PATH TO WEIGHTS}
 
 # VideoAttentionTarget
 python src/eval.py experiment=hgttr_videoattentiontarget ckpt_path={PATH TO CHECKPOINT}
+# or
+python src/eval.py experiment=hgttr_videoattentiontarget +model.net_pretraining={URL/PATH TO WEIGHTS}
 ```
 
 ### Checkpoints
-We provide model weights for GazeFollow at [this URL](https://mega.nz/file/NdhmDK5a#dJBiGvflEQqbjoDCNnWyPgEhiohq2Rnke2U9jt3H540).
+We provide model weights for GazeFollow at [this URL](https://mega.nz/file/NdhmDK5a#dJBiGvflEQqbjoDCNnWyPgEhiohq2Rnke2U9jt3H540) and VideoAttentionTarget at [this URL](https://mega.nz/file/hFRDxTaK#ToS4t2yQgUCrUHSid3Sunpout2jQ93b9mWZb5X9yYDo).
 
 ## Acknowledgements
 This code is based on [PyTorch Lightning](https://www.lightning.ai/), [Hydra](https://hydra.cc/), and the official DETR implementation.
 
 ## Cite us
-If you use this code implementation in your research, please cite us:
+**If you use this code implementation or our trained weights in your research, please cite us:**
 ```bibtext
-@InProceedings{tonini2023object,
+@inproceedings{tonini2023objectaware,
   title={Object-aware Gaze Target Detection},
   author={Tonini, Francesco and Dall'Asen, Nicola and Beyan, Cigdem and Ricci, Elisa},
-  booktitle={The IEEE International Conference on Computer Vision (ICCV)},
-  month={Oct},
+  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages={21860--21869},
   year={2023}
 }
 ```
