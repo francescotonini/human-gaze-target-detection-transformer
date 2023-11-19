@@ -5,7 +5,7 @@ An unofficial PyTorch implementation of the paper "[End-to-End Human-Gaze-Target
 ## Prerequisites
 ### Environment and dependencies
 We provide a pip requirements file to install all the dependencies.
-We recommend to use a conda environment to install the dependencies.
+We recommend using a conda environment to install the dependencies.
 
 ```bash
 # Clone project and submodules
@@ -65,7 +65,7 @@ python src/train.py experiment=hgttr_videoattentiontarget model.net_pretraining=
 ```
 
 ## Evaluation
-The configuration files are useful also when evaluating the model.
+The configuration files are also useful when evaluating the model.
 
 ```bash
 # GazeFollow
@@ -74,6 +74,9 @@ python src/eval.py experiment=hgttr_gazefollow ckpt_path={PATH TO CHECKPOINT}
 # VideoAttentionTarget
 python src/eval.py experiment=hgttr_videoattentiontarget ckpt_path={PATH TO CHECKPOINT}
 ```
+
+### Checkpoints
+We provide model weights for GazeFollow at [this URL](https://mega.nz/file/NdhmDK5a#dJBiGvflEQqbjoDCNnWyPgEhiohq2Rnke2U9jt3H540).
 
 ## Acknowledgements
 This code is based on [PyTorch Lightning](https://www.lightning.ai/), [Hydra](https://hydra.cc/), and the official DETR implementation.
