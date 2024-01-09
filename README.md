@@ -49,6 +49,8 @@ python scripts/gazefollow_get_aux_faces.py --dataset_path /path/to/gazefollow --
 python scripts/gazefollow_get_aux_faces.py --dataset_path /path/to/gazefollow --subset test
 
 # VideoAttentionTarget
+cp data/videoattentiontarget_extended/*.csv /path/to/videoattentiontarget
+
 python scripts/videoattentiontarget_get_aux_faces.py --dataset_path /path/to/videoattentiontarget --subset train
 python scripts/videoattentiontarget_get_aux_faces.py --dataset_path /path/to/videoattentiontarget --subset test
 ```
