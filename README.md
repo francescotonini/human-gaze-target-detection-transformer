@@ -45,14 +45,14 @@ Therefore, you need run the following script to extract face annotations.
 
 ```bash
 # GazeFollow
-python scripts/gazefollow_get_aux_faces.py --dataset_path /path/to/gazefollow --subset train
-python scripts/gazefollow_get_aux_faces.py --dataset_path /path/to/gazefollow --subset test
+python scripts/gazefollow_get_aux_faces.py --dataset_dir /path/to/gazefollow --subset train
+python scripts/gazefollow_get_aux_faces.py --dataset_dir /path/to/gazefollow --subset test
 
 # VideoAttentionTarget
 cp data/videoattentiontarget_extended/*.csv /path/to/videoattentiontarget
 
-python scripts/videoattentiontarget_get_aux_faces.py --dataset_path /path/to/videoattentiontarget --subset train
-python scripts/videoattentiontarget_get_aux_faces.py --dataset_path /path/to/videoattentiontarget --subset test
+python scripts/videoattentiontarget_get_aux_faces.py --dataset_dir /path/to/videoattentiontarget --subset train
+python scripts/videoattentiontarget_get_aux_faces.py --dataset_dir /path/to/videoattentiontarget --subset test
 ```
 
 ## Training
@@ -72,17 +72,14 @@ The configuration files are also useful when evaluating the model.
 ```bash
 # GazeFollow
 python src/eval.py experiment=hgttr_gazefollow ckpt_path={PATH TO CHECKPOINT}
-# or
-python src/eval.py experiment=hgttr_gazefollow +model.net_pretraining={URL/PATH TO WEIGHTS}
 
 # VideoAttentionTarget
 python src/eval.py experiment=hgttr_videoattentiontarget ckpt_path={PATH TO CHECKPOINT}
-# or
-python src/eval.py experiment=hgttr_videoattentiontarget +model.net_pretraining={URL/PATH TO WEIGHTS}
 ```
 
 ### Checkpoints
 We provide model weights for GazeFollow at [this URL](https://mega.nz/file/NdhmDK5a#dJBiGvflEQqbjoDCNnWyPgEhiohq2Rnke2U9jt3H540) and VideoAttentionTarget at [this URL](https://mega.nz/file/hFRDxTaK#ToS4t2yQgUCrUHSid3Sunpout2jQ93b9mWZb5X9yYDo).
+NOTE: when evaluating on the checkpoints above, replace `ckpt_path={PATH_TO_CHECKPOINT}` with `+model.net_pretraining={PATH_TO_CHECKPOINT}`.
 
 ## Acknowledgements
 This code is based on [PyTorch Lightning](https://www.lightning.ai/), [Hydra](https://hydra.cc/), and the official DETR implementation.
